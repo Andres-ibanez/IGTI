@@ -5,6 +5,8 @@ Nesse arquivo nos vamos desenvolver o sistema de rotas da nosa api, quando ela a
 const express = require("express");
 const transactionRouter = express.Router();
 
+const service = require("../services/transactionService");
+
 transactionRouter.get("/", async (req, res) => {
   const { query } = req;
   try {
@@ -18,9 +20,11 @@ transactionRouter.get("/", async (req, res) => {
       throw new Error("Period invalido use o formato yyyy-mm");
     }
 
+    const filteredTransactions = await service.getTransactionsFrom(period);
+
     res.send({
-      message: "Bem-vindo",
-      transactions: [ 'trans1', 'trans2'] 
+      length: filteredTransactions.length,
+      transactions: filteredTransactions 
     });
   } catch ({ message }) {
     res.status(400).send({ error: message });

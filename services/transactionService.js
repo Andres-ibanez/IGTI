@@ -7,7 +7,7 @@ const ObjectId = mongoose.Types.ObjectId;
 // descobrir esse erro :-/
 const TransactionModel = require('../models/TransactionModel');
 
-export const getTransactionsFrom = async (period) = {
+export const getTransactionsFrom = async (period) => {
     const transactions = await TransactionModel.find({ yearMonth: period });
     return transactions;
 };

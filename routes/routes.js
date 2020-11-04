@@ -57,12 +57,13 @@ transactionRouter.post("/", async (req, res) => {
       type  
     };
 
-    await service.postTransactionsFrom(postTransaction);
+    const newTransaction = await service.postTransactionsFrom(postTransaction);
 
     res.send({
-      status: "OK"
+      status: "OK",
+      transaction: newTransaction
     });
-    
+
   } catch ({ message }) {
     res.status(400).send({ error: message });
   }

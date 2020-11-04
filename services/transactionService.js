@@ -11,3 +11,8 @@ export const getTransactionsFrom = async (period) => {
     const transactions = await TransactionModel.find({ yearMonth: period });
     return transactions;
 };
+
+export const postTransactionsFrom = async (transaction) => {
+    const newTransaction = await TransactionModel.create(transaction);
+    return newTransaction;
+};

@@ -20,12 +20,14 @@ transactionRouter.get("/", async (req, res) => {
       throw new Error("Period invalido use o formato yyyy-mm");
     }
 
+    // Conectando nosso backend com a mongoDB deve retornar os datos do nosso DB
     const filteredTransactions = await service.getTransactionsFrom(period);
 
     res.send({
       length: filteredTransactions.length,
       transactions: filteredTransactions 
     });
+
   } catch ({ message }) {
     res.status(400).send({ error: message });
   }
@@ -39,9 +41,28 @@ transactionRouter.post("/", async (req, res) => {
       throw new Error("Não existe o conteudo");
     }
 
+    const { description, value, category, year, month, day, type } = body;
+    const yeartMonth = `${year}-${month.toString().padStart(2, '0')}`;
+    const yeartMonthDay = `${yeartMonth}-${day.toString.padStart(2, '0')}`;
+
+    const postTransaction = {
+      description,
+      value,
+      category, 
+      year, 
+      month, 
+      day, 
+      yeartMonth,
+      yeartMonthDay,
+      type  
+    };
+
+    await service.postTransactionsFrom(postTransaction);
+
     res.send({
       status: "OK"
     });
+    
   } catch ({ message }) {
     res.status(400).send({ error: message });
   }
